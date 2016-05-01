@@ -36,7 +36,7 @@ def main():
         actualPartitionY.append(len(partition(partitionX[x])))
         approximatePartitionY.append(approximate_partition(partitionX[x]))
 
-    regressor = Pipeline([('poly', PolynomialFeatures(degree=3)),('linear', LinearRegression(fit_intercept=False))])
+    regressor = Pipeline([('poly', PolynomialFeatures(degree=4)),('linear', LinearRegression(fit_intercept=False))])
     trainingX = []
     for x in range(0, len(partitionX)):
         tmp = []
@@ -51,7 +51,7 @@ def main():
     regressor.fit(np.asarray(trainingX, dtype=np.int32), np.asarray(trainingY, dtype=np.int32))
 
     testDataForRegressor = []
-    for x in range(1, 1000):
+    for x in range(1, 21):
         testDataForRegressor.append(x)
 
     estimatedRegressorY = []
@@ -65,8 +65,6 @@ def main():
     plt.plot(testDataForRegressor, estimatedRegressorY)
 
     plt.show()
-
-    print(np.dot(trainingX, regressor.coef_))
 
 if __name__ == "__main__":
     main()
