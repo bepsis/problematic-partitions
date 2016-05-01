@@ -20,5 +20,4 @@ $ python ramanujan.py
 
 ### Visualization
 Here's a good way of understanding the simplicity and growth rate of the partition function:
-
 ![woah](http://puu.sh/oCNSS/f758d835e8.png)
