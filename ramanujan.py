@@ -4,6 +4,10 @@ import math
 import numpy as np
 from sklearn import preprocessing
 from sklearn.svm import SVR
+from sklearn import linear_model
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 
 # True partition function using recursive algorithm
 def partition(n):
@@ -32,7 +36,7 @@ def main():
         actualPartitionY.append(len(partition(partitionX[x])))
         approximatePartitionY.append(approximate_partition(partitionX[x]))
 
-    regressor = SVR(kernel='rbf', C=1e3, gamma=0.1)
+    regressor = Pipeline([('poly', PolynomialFeatures(degree=3)),('linear', LinearRegression(fit_intercept=False))])
     trainingX = []
     for x in range(0, len(partitionX)):
         tmp = []
@@ -44,21 +48,21 @@ def main():
         tmp.append(actualPartitionY[x])
         trainingY.append(tmp)
 
-    # print(trainingX)
-    # print(trainingY)
     regressor.fit(np.asarray(trainingX, dtype=np.int32), np.asarray(trainingY, dtype=np.int32))
-    # print(regressor.predict(np.asarray([10], dtype=np.int32)))
-    print(regressor.support_vectors_)
+
+    testDataForRegressor = []
+    for x in range(1, 1000):
+        testDataForRegressor.append(x)
 
     estimatedRegressorY = []
-    for x in range(0, len(partitionX)):
+    for x in range(0, len(testDataForRegressor)):
         tmp = []
-        tmp.append(partitionX[x])
+        tmp.append(testDataForRegressor[x])
         estimatedRegressorY.append(regressor.predict(np.asarray(tmp, dtype=np.int32))[0])
 
     plt.plot(partitionX, actualPartitionY)
     plt.plot(partitionX, approximatePartitionY)
-    plt.plot(partitionX, estimatedRegressorY)
+    plt.plot(testDataForRegressor, estimatedRegressorY)
 
     plt.show()
 
