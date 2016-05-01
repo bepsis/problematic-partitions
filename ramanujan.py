@@ -66,5 +66,7 @@ def main():
 
     plt.show()
 
+    print(np.dot(trainingX, regressor.coef_))
+
 if __name__ == "__main__":
     main()
