@@ -20,8 +20,8 @@ def approximate_partition(n):
     return answer
 
 def main():
-    print(len(partition(10)))
-    print(approximate_partition(10))
+    print("Actual p(n) function: " + str(len(partition(10))))
+    print("Ramanujan approximation of p(n): "+str(approximate_partition(10)))
 
     partitionX = []
     for x in range(1, 20):
@@ -44,10 +44,11 @@ def main():
         tmp.append(actualPartitionY[x])
         trainingY.append(tmp)
 
-    print(trainingX)
-    print(trainingY)
+    # print(trainingX)
+    # print(trainingY)
     regressor.fit(np.asarray(trainingX, dtype=np.int32), np.asarray(trainingY, dtype=np.int32))
-    print(regressor.predict(np.asarray([10], dtype=np.int32)))
+    # print(regressor.predict(np.asarray([10], dtype=np.int32)))
+    print(regressor.support_vectors_)
 
     estimatedRegressorY = []
     for x in range(0, len(partitionX)):
